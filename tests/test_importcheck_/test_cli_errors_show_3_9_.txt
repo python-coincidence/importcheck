@@ -1,4 +1,4 @@
-importcheck version 0.0.0 on FakePython v1.2.3
+importcheck version 0.0.0
 
 Checking 'collections'...........Passed
 Checking 'i_dont_exist'..........Failed

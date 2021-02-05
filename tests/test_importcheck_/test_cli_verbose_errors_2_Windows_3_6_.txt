@@ -4,7 +4,7 @@ Checking 'collections'...........Passed
 Checking 'i_dont_exist'..........Failed
 Captured output:
 Traceback (most recent call last):
-  File ".../importlib/__init__.py", line 126, in import_module
+  File "...importlib\__init__.py", line 126, in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
   File "<frozen importlib._bootstrap>", line 994, in _gcd_import
   File "<frozen importlib._bootstrap>", line 971, in _find_and_load
@@ -14,7 +14,7 @@ ModuleNotFoundError: No module named 'i_dont_exist'
 Checking 'this-is&invalid'.......Failed
 Captured output:
 Traceback (most recent call last):
-  File ".../importlib/__init__.py", line 126, in import_module
+  File "...importlib\__init__.py", line 126, in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
   File "<frozen importlib._bootstrap>", line 994, in _gcd_import
   File "<frozen importlib._bootstrap>", line 971, in _find_and_load

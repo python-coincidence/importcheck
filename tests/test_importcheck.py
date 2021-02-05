@@ -27,6 +27,7 @@ def fix_stdout(stdout: str) -> str:
 			)
 	stdout = stdout.replace(f"importcheck version {__version__}", "importcheck version 0.0.0")
 	stdout = re.sub(r"python3.(\d+)", "python3.8", stdout)
+	stdout = re.sub(r'File ".*[/\\]importlib[/\\]__init__.py"', 'File ".../importlib/__init__.py"', stdout)
 	return stdout
 
 
@@ -132,30 +133,42 @@ def test_cli_verbose(
 	assert result.exit_code == 0
 
 
-@versions
-@platforms
-@pytest.mark.parametrize("verbosity", [1, 2])
 def test_cli_verbose_errors(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
-		verbosity: int,
-		platform: str,
-		version,
 		):
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
-		result: Result = runner.invoke(main, args=["--verbose"] * verbosity)
+		result: Result = runner.invoke(main, args=["--verbose"])
 
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 
 	assert result.exit_code == 1
 
 
-@platforms
+@versions
+def test_cli_verbose_verbose_errors(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		capsys,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		errored_environment,
+		version,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--verbose", "--verbose"])
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+
+	assert result.exit_code == 1
+
+
 @versions
 def test_cli_errors_show(
 		tmp_pathplus: PathPlus,
@@ -163,7 +176,6 @@ def test_cli_errors_show(
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
-		platform: str,
 		version,
 		):
 
