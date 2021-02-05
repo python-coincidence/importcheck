@@ -17,7 +17,7 @@ importcheck
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |actions_linux| |actions_windows| |actions_macos|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Activity
@@ -57,6 +57,9 @@ importcheck
 
 .. |requires| requires-io-shield::
 	:alt: Requirements Status
+
+.. |coveralls| coveralls-shield::
+	:alt: Coverage
 
 .. |codefactor| codefactor-shield::
 	:alt: CodeFactor Grade
@@ -128,17 +131,14 @@ Installation
 
 .. toctree::
 	:maxdepth: 3
-	:caption: API Reference
+	:caption: Documentation
 	:glob:
 
-	api/*
-
-.. toctree::
-	:maxdepth: 3
-	:caption: Contributing
-
+	usage
+	api
 	contributing
 	Source
+
 
 .. start links
 

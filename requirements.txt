@@ -1,0 +1,6 @@
+click>=7.1.2
+consolekit>=1.0.0
+domdf-python-tools>=2.5.2
+packaging>=20.9
+toml>=0.10.2
+typing-extensions>=3.7.4.3

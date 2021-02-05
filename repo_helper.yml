@@ -10,7 +10,6 @@ license: 'MIT'
 short_desc: 'A tool to check all modules can be correctly imported.'
 
 enable_conda: false
-enable_tests: False
 
 python_deploy_version: 3.6
 
@@ -20,8 +19,20 @@ python_versions:
  - 3.8
  - 3.9
  - 3.10-dev
- - pypy3
 
 keywords:
  - import
  - test
+
+sphinx_html_theme: furo
+standalone_contrib_guide: true
+preserve_custom_theme: true
+
+extra_sphinx_extensions:
+ - sphinx_click
+
+console_scripts:
+ - "importcheck=importcheck.__main__:main"
+
+sphinx_conf_epilogue:
+ - nitpicky = True

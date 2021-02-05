@@ -1,0 +1,9 @@
+importcheck version 0.0.0 on FakePython v1.2.3
+
+Checking 'collections'...........Passed
+Checking 'i_dont_exist'..........Failed
+Checking 'this-is&invalid'.......Failed
+Checking 'domdf_python_tools'....Passed
+Checking 'coincidence'...........Passed
+
+Tip: run with '--show' to show tracebacks for failed imports.

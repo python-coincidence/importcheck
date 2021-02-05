@@ -1,5 +1,5 @@
 ============
-importcheck
+Public API
 ============
 
 .. automodule:: importcheck

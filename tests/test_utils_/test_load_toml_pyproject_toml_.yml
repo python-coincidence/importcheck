@@ -1,0 +1,9 @@
+always:
+- importcheck
+- foo
+config:
+  count: true
+  show: true
+only_if:
+  sys_platform == "linux":
+  - importcheck.__main__

@@ -18,7 +18,7 @@ importcheck
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |actions_linux| |actions_windows| |actions_macos|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Activity
@@ -59,6 +59,10 @@ importcheck
 .. |requires| image:: https://requires.io/github/domdfcoding/importcheck/requirements.svg?branch=master
 	:target: https://requires.io/github/domdfcoding/importcheck/requirements/?branch=master
 	:alt: Requirements Status
+
+.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/importcheck/master?logo=coveralls
+	:target: https://coveralls.io/github/domdfcoding/importcheck?branch=master
+	:alt: Coverage
 
 .. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/importcheck?logo=codefactor
 	:target: https://www.codefactor.io/repository/github/domdfcoding/importcheck
