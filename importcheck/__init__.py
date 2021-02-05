@@ -112,11 +112,11 @@ class OK(NamedTuple):
 	module: str
 
 	@property
-	def stdout(self):
+	def stdout(self):  # noqa: D102
 		raise NotImplementedError
 
 	@property
-	def stderr(self):
+	def stderr(self):  # noqa: D102
 		raise NotImplementedError
 
 	def __bool__(self):

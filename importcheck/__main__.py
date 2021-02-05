@@ -40,14 +40,14 @@ from consolekit.terminal_colours import Back, ColourTrilean, Style, resolve_colo
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 
+# this package
+from importcheck import check_module, evaluate_markers, load_toml
+
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
-
-# this package
-from importcheck import Error, check_module, evaluate_markers, load_toml
 
 __all__ = ["main"]
 

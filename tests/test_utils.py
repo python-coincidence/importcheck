@@ -86,6 +86,7 @@ def test_load_toml_errors(tmp_pathplus: PathPlus):
 	with pytest.raises(FileNotFoundError):
 		load_toml(tmp_pathplus / "too.txt")
 
+	(tmp_pathplus / "pyproject.toml").write_text("[build-system]\n")
+
 	with pytest.raises(KeyError, match="No such table 'importcheck' or 'tool.importcheck'"):
-		(tmp_pathplus / "pyproject.toml").write_text("[build-system]\n")
 		load_toml(tmp_pathplus / "pyproject.toml")
