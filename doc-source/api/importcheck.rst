@@ -1,0 +1,5 @@
+============
+importcheck
+============
+
+.. automodule:: importcheck
