@@ -1,13 +1,3 @@
 [build-system]
 requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]
 build-backend = "setuptools.build_meta"
-
-[tool.importcheck]
-always = [ "importcheck", "foo",]
-
-[tool.importcheck.only_if]
-"sys_platform == \"linux\"" = [ "importcheck.__main__",]
-
-[tool.importcheck.config]
-show = true
-count = true
