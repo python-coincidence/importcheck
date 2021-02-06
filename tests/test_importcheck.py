@@ -221,3 +221,48 @@ def test_cli_help(
 
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
+
+
+def test_cli_bad_config(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	(tmp_pathplus / "pyproject.toml").write_lines([
+			"[build-system]",
+			'requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]',
+			'build-backend = "setuptools.build_meta"',
+			])
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--no-colour"])
+
+	assert result.exit_code == 1
+	assert not result.stdout
+	check_file_regression(fix_stdout(result.stderr), file_regression, extension=".txt")
+
+
+@pytest.mark.parametrize("verbosity", [0, 1, 2])
+def test_cli_no_op(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		verbosity: int,
+		):
+
+	(tmp_pathplus / "pyproject.toml").write_lines([
+			"[build-system]",
+			'requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]',
+			'build-backend = "setuptools.build_meta"',
+			'',
+			"[tool.importcheck]",
+			])
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner()
+		result: Result = runner.invoke(main, args=["--no-colour"] + (["--verbose"] * verbosity))
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 0
