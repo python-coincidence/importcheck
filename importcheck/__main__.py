@@ -145,17 +145,21 @@ def main(
 		if count is None:
 			count = config["config"].get("count", count)
 
-	if verbose:
-		about(2)
-	else:
-		about()
-	click.echo()
-
 	if verbose == 2:
 		show = True
 
-	longest_name = max(map(len, modules_to_check))
-	longest_name += 15
+	longest_name = 15
+
+	if modules_to_check:
+		longest_name += max(map(len, modules_to_check))
+	else:
+		if verbose:
+			echo("No modules to check.")
+
+		sys.exit(0)
+
+	about(2 if verbose else 1)
+	click.echo()
 
 	for module in modules_to_check:
 		echo(Style.BRIGHT(f"Checking {module!r}".ljust(longest_name, '.')), nl=False)
