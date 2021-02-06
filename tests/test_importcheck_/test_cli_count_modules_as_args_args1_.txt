@@ -1,0 +1,5 @@
+importcheck version 0.0.0
+
+Checking 'collections'....Passed
+
+1 module imported successfully.

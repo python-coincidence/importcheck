@@ -1,0 +1,10 @@
+importcheck version 0.0.0
+
+Checking 'collections'...........Passed
+Checking 'i_dont_exist'..........Failed
+Checking 'this-is&invalid'.......Failed
+Checking 'domdf_python_tools'....Passed
+Checking 'coincidence'...........Passed
+
+3/5 modules imported successfully.
+Tip: run with '--show' to show tracebacks for failed imports.

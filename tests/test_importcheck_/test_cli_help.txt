@@ -1,0 +1,20 @@
+Usage: main [OPTIONS] [MODULE]...
+
+  Check modules can be imported.
+
+  Modules can be given as the MODULE argument or in the configuration file.
+
+Options:
+  --version                 Show the version and exit.
+  -v, --verbose             Show verbose output.
+  -C, --count / --no-count  Whether to show a count of the passed and failed
+                            imports at the end.
+
+  -s, --show / --no-show    Whether to show stdout and stderr generated from
+                            imports.
+
+  --colour / --no-colour    Whether to use coloured output.
+  -c, --config-file TEXT    The path to the TOML configuration file to use.
+                            [default: pyproject.toml]
+
+  -h, --help                Show this message and exit.

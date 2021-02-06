@@ -1,0 +1,6 @@
+importcheck version 0.0.0
+
+Checking 'collections'....Passed
+Checking 'importlib'......Passed
+
+All 2 modules imported successfully.

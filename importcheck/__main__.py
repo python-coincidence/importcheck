@@ -30,18 +30,18 @@ A tool to check all modules can be correctly imported.
 import functools
 import platform
 import sys
-from typing import Optional, cast
+from typing import Iterable, Optional
 
 # 3rd party
 import click
 from consolekit import click_command
-from consolekit.options import colour_option, flag_option, verbose_option, version_option
+from consolekit.options import auto_default_option, colour_option, flag_option, verbose_option, version_option
 from consolekit.terminal_colours import Back, ColourTrilean, Style, resolve_color_default
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 
 # this package
-from importcheck import check_module, evaluate_markers, load_toml
+from importcheck import _module, check_module, evaluate_markers, load_toml
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
@@ -76,12 +76,11 @@ def version_callback(ctx: click.Context, param: click.Option, value: int):  # no
 	ctx.exit()
 
 
-@click.option(
+@auto_default_option(
 		"-c",
 		"--config-file",
 		type=click.STRING,
 		help="The path to the TOML configuration file to use.",
-		default="pyproject.toml",
 		show_default=True,
 		)
 @colour_option()
@@ -97,11 +96,13 @@ def version_callback(ctx: click.Context, param: click.Option, value: int):  # no
 		default=None,
 		help="Whether to show a count of the passed and failed imports at the end.",
 		)
+@click.argument("module", type=click.STRING, nargs=-1)
 @verbose_option()
 @version_option(version_callback)
 @click_command()
 def main(
-		config_file: PathLike,
+		module: Iterable[str] = (),
+		config_file: PathLike = "pyproject.toml",
 		colour: ColourTrilean = None,
 		verbose: bool = False,
 		show: Optional[bool] = None,
@@ -109,6 +110,8 @@ def main(
 		):
 	"""
 	Check modules can be imported.
+
+	Modules can be given as the MODULE argument or in the configuration file.
 	"""
 
 	retv = 0
@@ -117,8 +120,16 @@ def main(
 
 	stats = {"passed": 0, "failed": 0}
 
-	config = load_toml(config_file)
-	modules_to_check = evaluate_markers(config)
+	if module:
+		modules_to_check = list(module)
+		try:
+			config = load_toml(config_file)
+		except (KeyError, FileNotFoundError):
+			config = {}
+
+	else:
+		config = load_toml(config_file)
+		modules_to_check = evaluate_markers(config)
 
 	if "config" in config:
 		if show is None:
@@ -157,15 +168,19 @@ def main(
 			echo(Back.GREEN("Passed"))
 			stats["passed"] += 1
 
-	# TODO: global config for stats and show
-
 	if (retv and not show) or count:
 		echo()
 
 	if retv and count:
-		echo(f"{stats['passed']}/{sum(stats.values())} modules imported successfully.")
+		total_modules = sum(stats.values())
+		echo(f"{stats['passed']}/{total_modules} {_module(total_modules)} imported successfully.")
+
 	elif not retv and count:
-		echo(f"All {stats['passed']} modules imported successfully.")
+		n_passed = stats["passed"]
+		if n_passed == 1:
+			echo(f"{stats['passed']} module imported successfully.")
+		else:
+			echo(f"All {stats['passed']} modules imported successfully.")
 
 	if retv and not show:
 		echo("Tip: run with '--show' to show tracebacks for failed imports.")

@@ -5,7 +5,7 @@ from typing import List
 # 3rd party
 import click
 import pytest
-from coincidence import AdvancedDataRegressionFixture
+from coincidence.regressions import AdvancedDataRegressionFixture
 from domdf_python_tools.paths import PathPlus
 
 # this package

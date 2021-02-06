@@ -4,15 +4,8 @@ import re
 
 # 3rd party
 import pytest
-from coincidence import (
-		AdvancedDataRegressionFixture,
-		check_file_regression,
-		not_macos,
-		not_windows,
-		only_macos,
-		only_version,
-		only_windows
-		)
+from coincidence.regressions import AdvancedDataRegressionFixture, check_file_regression
+from coincidence.selectors import not_macos, not_windows, only_macos, only_version, only_windows
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
 from pytest_regressions.file_regression import FileRegressionFixture
@@ -101,7 +94,6 @@ versions = pytest.mark.parametrize(
 def test_cli(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		platform: str,
 		demo_environment,
@@ -119,7 +111,6 @@ def test_cli(
 def test_cli_verbose(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		platform: str,
 		demo_environment,
@@ -136,7 +127,6 @@ def test_cli_verbose(
 def test_cli_verbose_errors(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		):
@@ -154,7 +144,6 @@ def test_cli_verbose_errors(
 def test_cli_verbose_verbose_errors(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		version,
@@ -173,7 +162,6 @@ def test_cli_verbose_verbose_errors(
 def test_cli_errors_show(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		version,
@@ -185,3 +173,51 @@ def test_cli_errors_show(
 
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 1
+
+
+def test_cli_errors_count(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		errored_environment,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--count", "--no-colour"])
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 1
+
+
+@pytest.mark.parametrize("args", [
+		("collections", "importlib", "--count"),
+		("collections", "--count"),
+		])
+def test_cli_count_modules_as_args(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		args,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=[*args, "--no-colour"])
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 0
+
+
+def test_cli_help(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--help", "--no-colour"])
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 0

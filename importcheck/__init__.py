@@ -28,8 +28,10 @@ A tool to check all modules can be correctly imported.
 
 # stdlib
 import contextlib
+import importlib
+import importlib.machinery
+import importlib.util
 import traceback
-from importlib import import_module
 from io import StringIO
 from typing import Any, Dict, Iterator, List, Mapping, NamedTuple, Tuple, Union, cast
 
@@ -38,6 +40,7 @@ import toml
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.typing import PathLike
+from domdf_python_tools.words import Plural
 from packaging.markers import Marker
 from typing_extensions import TypedDict
 
@@ -48,6 +51,8 @@ __copyright__: str = "2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
+
+_module = Plural("module", "modules")
 
 
 class ConfigDict(TypedDict, total=False):
@@ -191,7 +196,7 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 
 	with redirect_output(combine_output) as (stdout, stderr):
 		try:
-			import_module(module)
+			importlib.import_module(module)
 			return OK(module)
 		except Exception as e:
 			traceback_frames = traceback.extract_tb(e.__traceback__)
