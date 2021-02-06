@@ -36,3 +36,5 @@ console_scripts:
 
 sphinx_conf_epilogue:
  - nitpicky = True
+
+min_coverage: 95
