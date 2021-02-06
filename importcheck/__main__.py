@@ -128,7 +128,15 @@ def main(
 			config = {}
 
 	else:
-		config = load_toml(config_file)
+		try:
+			config = load_toml(config_file)
+		except KeyError as e:
+			if e.args and e.args[0] == "No such table 'importcheck' or 'tool.importcheck'":
+				click.echo(f"KeyError: {e.args[0]} in {config_file!r}", err=True)
+				raise click.Abort()
+			else:
+				raise e
+
 		modules_to_check = evaluate_markers(config)
 
 	if "config" in config:
