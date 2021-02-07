@@ -29,6 +29,7 @@ A tool to check all modules can be correctly imported.
 # stdlib
 import functools
 import platform
+import re
 import sys
 from typing import Iterable, Optional
 
@@ -41,13 +42,7 @@ from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 
 # this package
-from importcheck import _module, check_module, evaluate_markers, load_toml
-
-__author__: str = "Dominic Davis-Foster"
-__copyright__: str = "2021 Dominic Davis-Foster"
-__license__: str = "MIT License"
-__version__: str = "0.0.0"
-__email__: str = "dominic@davis-foster.co.uk"
+from importcheck import __version__, _module, check_module, evaluate_markers, load_toml, paths_to_modules
 
 __all__ = ["main"]
 
@@ -121,7 +116,11 @@ def main(
 	stats = {"passed": 0, "failed": 0}
 
 	if module:
-		modules_to_check = list(module)
+		if module == ('-', ):
+			modules_to_check = list(filter(bool, map(str.strip, re.split("[\n ]", sys.stdin.read()))))
+		else:
+			modules_to_check = list(module)
+
 		try:
 			config = load_toml(config_file)
 		except (KeyError, FileNotFoundError):
@@ -150,6 +149,9 @@ def main(
 
 	longest_name = 15
 
+	# if / in path replace with . and remove .py* extension
+	modules_to_check = list(paths_to_modules(*modules_to_check))
+
 	if modules_to_check:
 		longest_name += max(map(len, modules_to_check))
 	else:
@@ -161,10 +163,10 @@ def main(
 	about(2 if verbose else 1)
 	click.echo()
 
-	for module in modules_to_check:
-		echo(Style.BRIGHT(f"Checking {module!r}".ljust(longest_name, '.')), nl=False)
+	for module_name in modules_to_check:
+		echo(Style.BRIGHT(f"Checking {module_name!r}".ljust(longest_name, '.')), nl=False)
 
-		ret = check_module(module, combine_output=True)
+		ret = check_module(module_name, combine_output=True)
 
 		if ret:
 			retv |= 1

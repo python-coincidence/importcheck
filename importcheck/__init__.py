@@ -44,7 +44,7 @@ from domdf_python_tools.words import Plural
 from packaging.markers import Marker
 from typing_extensions import TypedDict
 
-__all__ = ["ConfigDict", "Error", "OK", "check_module", "evaluate_markers", "load_toml", "redirect_output"]
+__all__ = ["ConfigDict", "Error", "OK", "check_module", "evaluate_markers", "load_toml", "paths_to_modules"]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
@@ -220,3 +220,21 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 			print(''.join(buf), file=stderr)
 
 			return Error(module, stdout.getvalue(), stderr.getvalue())
+
+
+def paths_to_modules(*paths: PathLike) -> Iterator[str]:
+	r"""
+	Convert filesystem paths (e.g. ``foo/bar.py``) into dotted import names (e.g. ``foo.bar``).
+
+	.. versionadded:: 0.2.0
+
+	:param \*paths: The paths to convert.
+	"""
+
+	for path in paths:
+		path = PathPlus(path)
+
+		if path.is_file() and path.suffix == ".py":
+			path = path.with_suffix('')
+
+		yield '.'.join(path.parts)

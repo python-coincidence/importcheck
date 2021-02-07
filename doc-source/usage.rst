@@ -9,6 +9,24 @@ Command Line
 	:prog: importcheck
 	:nested: none
 
+.. versionchanged:: 0.2.0
+
+	The list of modules to check can also be read from stdin if ``-`` is given as the first argument.
+
+	**Example:**
+
+	.. prompt:: bash
+
+		find importcheck/*.py | python3 -m importcheck - -s
+
+	.. parsed-literal::
+
+		importcheck version 0.0.0
+
+		Checking 'importcheck.__init__'....Passed
+		Checking 'importcheck.__main__'....Passed
+
+
 
 Configuration
 --------------
