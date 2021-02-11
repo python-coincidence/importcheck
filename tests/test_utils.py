@@ -6,10 +6,10 @@ from typing import List
 import click
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
-from domdf_python_tools.paths import PathPlus
+from domdf_python_tools.paths import PathPlus, in_directory
 
 # this package
-from importcheck import load_toml, redirect_output
+from importcheck import load_toml, paths_to_modules, redirect_output
 
 
 def test_redirect_output():
@@ -90,3 +90,23 @@ def test_load_toml_errors(tmp_pathplus: PathPlus):
 
 	with pytest.raises(KeyError, match="No such table 'importcheck' or 'tool.importcheck'"):
 		load_toml(tmp_pathplus / "pyproject.toml")
+
+
+def test_paths_to_modules(tmp_pathplus):
+	modules = [
+			tmp_pathplus / "my_module.py",
+			tmp_pathplus / "my_code" / "my_module.py",
+			]
+
+	for file in modules:
+		file.parent.maybe_make()
+		file.touch()
+
+	with in_directory(tmp_pathplus):
+		expected = ["my_module", "my_code.my_module"]
+		assert list(paths_to_modules(*(m.relative_to(tmp_pathplus) for m in modules))) == expected
+
+	expected = ["my_module.py", "my_code.my_module.py"]
+	assert list(paths_to_modules(*(m.relative_to(tmp_pathplus) for m in modules))) == expected
+
+	assert list(paths_to_modules("collections")) == ["collections"]

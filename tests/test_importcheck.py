@@ -94,7 +94,6 @@ versions = pytest.mark.parametrize(
 def test_cli(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		platform: str,
 		demo_environment,
 		):
@@ -111,7 +110,6 @@ def test_cli(
 def test_cli_verbose(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		platform: str,
 		demo_environment,
 		):
@@ -127,7 +125,6 @@ def test_cli_verbose(
 def test_cli_verbose_errors(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		):
 
@@ -144,7 +141,6 @@ def test_cli_verbose_errors(
 def test_cli_verbose_verbose_errors(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		version,
 		):
@@ -162,7 +158,6 @@ def test_cli_verbose_verbose_errors(
 def test_cli_errors_show(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		version,
 		):
@@ -178,7 +173,6 @@ def test_cli_errors_show(
 def test_cli_errors_count(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		errored_environment,
 		):
 
@@ -197,7 +191,6 @@ def test_cli_errors_count(
 def test_cli_count_modules_as_args(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		args,
 		):
 
@@ -212,7 +205,6 @@ def test_cli_count_modules_as_args(
 def test_cli_help(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 
 	with in_directory(tmp_pathplus):
@@ -226,7 +218,6 @@ def test_cli_help(
 def test_cli_bad_config(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 
 	(tmp_pathplus / "pyproject.toml").write_lines([
@@ -248,7 +239,6 @@ def test_cli_bad_config(
 def test_cli_no_op(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
-		advanced_data_regression: AdvancedDataRegressionFixture,
 		verbosity: int,
 		):
 
@@ -265,4 +255,27 @@ def test_cli_no_op(
 		result: Result = runner.invoke(main, args=["--no-colour"] + (["--verbose"] * verbosity))
 
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 0
+
+
+def test_cli_stdin(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=['-', "--no-colour"], input="collections importlib functools")
+
+	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	assert result.exit_code == 0
+
+
+def test_cli_version(tmp_pathplus: PathPlus, ):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--version"])
+
+	assert fix_stdout(result.stdout) == "importcheck version 0.0.0"
 	assert result.exit_code == 0

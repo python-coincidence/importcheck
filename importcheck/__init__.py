@@ -28,23 +28,37 @@ A tool to check all modules can be correctly imported.
 
 # stdlib
 import contextlib
+import functools
 import importlib
 import importlib.machinery
 import importlib.util
 import traceback
 from io import StringIO
-from typing import Any, Dict, Iterator, List, Mapping, NamedTuple, Tuple, Union, cast
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, NamedTuple, Tuple, Union, cast
 
 # 3rd party
+import click
 import toml
+from click.globals import resolve_color_default
+from consolekit.terminal_colours import Back, Style
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.paths import PathPlus
+from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from domdf_python_tools.words import Plural
 from packaging.markers import Marker
 from typing_extensions import TypedDict
 
-__all__ = ["ConfigDict", "Error", "OK", "check_module", "evaluate_markers", "load_toml", "paths_to_modules"]
+__all__ = [
+		"ConfigDict",
+		"Error",
+		"OK",
+		"check_module",
+		"evaluate_markers",
+		"load_toml",
+		"paths_to_modules",
+		"ImportChecker"
+		]
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
@@ -238,3 +252,87 @@ def paths_to_modules(*paths: PathLike) -> Iterator[str]:
 			path = path.with_suffix('')
 
 		yield '.'.join(path.parts)
+
+
+class ImportChecker:
+	"""
+	Class for checking modules can be imported.
+
+	.. versionadded:: 0.3.0
+
+	:param modules: The list of modules to be checked.
+	:param show: Whether to show stdout and stderr generated from imports.
+	:param colour: Whether to use coloured output.
+	"""
+
+	def __init__(
+			self,
+			modules: Iterable[str],
+			*,
+			show: bool = False,
+			colour: bool = False,
+			):
+
+		#: The list of modules to be checked.
+		self.modules: List[str] = list(modules)
+
+		#: Dictionary holding statistics about passing/failing imports.
+		self.stats: Dict[str, int] = {"passed": 0, "failed": 0}
+
+		#: Whether to show stdout and stderr generated from imports.
+		self.show = show
+
+		#: Whether to use coloured output.
+		self.colour = colour
+
+	def check_modules(self) -> Iterator[Tuple[str, int]]:
+		"""
+		Checks modules can be imported.
+
+		:returns: An iterator of 2-element tuples comprising the name of the module and the import status:
+
+			0. The module was imported successfully.
+			1. The module could not be imported. If :attr:`~.show` is :py:obj:`True` the traceback will be shown.
+		"""
+
+		longest_name = 15
+		echo = functools.partial(click.echo, color=resolve_color_default(self.colour))
+
+		if self.modules:
+			longest_name += max(map(len, self.modules))
+		else:
+			return
+
+		for module_name in self.modules:
+			echo(Style.BRIGHT(f"Checking {module_name!r}".ljust(longest_name, '.')), nl=False)
+
+			ret = check_module(module_name, combine_output=True)
+
+			if ret:
+				echo(Back.RED("Failed"))
+				self.stats["failed"] += 1
+
+				if self.show:
+					echo(Style.BRIGHT("Captured output:"))
+					stdout = StringList(ret.stdout)
+					stdout.blankline(ensure_single=True)
+					echo(stdout)
+
+				yield module_name, 1
+
+			else:
+				echo(Back.GREEN("Passed"))
+				self.stats["passed"] += 1
+				yield module_name, 0
+
+	def format_statistics(self) -> str:
+		if self.stats["failed"]:
+			total_modules = sum(self.stats.values())
+			return f"{self.stats['passed']}/{total_modules} {_module(total_modules)} imported successfully."
+
+		else:
+			n_passed = self.stats["passed"]
+			if n_passed == 1:
+				return f"{self.stats['passed']} module imported successfully."
+			else:
+				return f"All {self.stats['passed']} modules imported successfully."

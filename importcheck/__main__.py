@@ -28,6 +28,7 @@ A tool to check all modules can be correctly imported.
 
 # stdlib
 import functools
+import operator
 import platform
 import re
 import sys
@@ -37,12 +38,11 @@ from typing import Iterable, Optional
 import click
 from consolekit import click_command
 from consolekit.options import auto_default_option, colour_option, flag_option, verbose_option, version_option
-from consolekit.terminal_colours import Back, ColourTrilean, Style, resolve_color_default
-from domdf_python_tools.stringlist import StringList
+from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from domdf_python_tools.typing import PathLike
 
 # this package
-from importcheck import __version__, _module, check_module, evaluate_markers, load_toml, paths_to_modules
+from importcheck import ImportChecker, __version__, evaluate_markers, load_toml, paths_to_modules
 
 __all__ = ["main"]
 
@@ -109,11 +109,7 @@ def main(
 	Modules can be given as the MODULE argument or in the configuration file.
 	"""
 
-	retv = 0
-
 	echo = functools.partial(click.echo, color=resolve_color_default(colour))
-
-	stats = {"passed": 0, "failed": 0}
 
 	if module:
 		if module == ('-', ):
@@ -147,14 +143,10 @@ def main(
 	if verbose == 2:
 		show = True
 
-	longest_name = 15
-
 	# if / in path replace with . and remove .py* extension
 	modules_to_check = list(paths_to_modules(*modules_to_check))
 
-	if modules_to_check:
-		longest_name += max(map(len, modules_to_check))
-	else:
+	if not modules_to_check:
 		if verbose:
 			echo("No modules to check.")
 
@@ -163,38 +155,14 @@ def main(
 	about(2 if verbose else 1)
 	click.echo()
 
-	for module_name in modules_to_check:
-		echo(Style.BRIGHT(f"Checking {module_name!r}".ljust(longest_name, '.')), nl=False)
-
-		ret = check_module(module_name, combine_output=True)
-
-		if ret:
-			retv |= 1
-			echo(Back.RED("Failed"))
-			stats["failed"] += 1
-
-			if show:
-				echo(Style.BRIGHT("Captured output:"))
-				stdout = StringList(ret.stdout)  #
-				stdout.blankline(ensure_single=True)
-				echo(stdout)
-		else:
-			echo(Back.GREEN("Passed"))
-			stats["passed"] += 1
+	checker = ImportChecker(modules_to_check, show=show or False, colour=colour or False)
+	retv = functools.reduce(operator.or_, map(operator.itemgetter(1), checker.check_modules()), 0)
 
 	if (retv and not show) or count:
 		echo()
 
-	if retv and count:
-		total_modules = sum(stats.values())
-		echo(f"{stats['passed']}/{total_modules} {_module(total_modules)} imported successfully.")
-
-	elif not retv and count:
-		n_passed = stats["passed"]
-		if n_passed == 1:
-			echo(f"{stats['passed']} module imported successfully.")
-		else:
-			echo(f"All {stats['passed']} modules imported successfully.")
+	if count:
+		echo(checker.format_statistics())
 
 	if retv and not show:
 		echo("Tip: run with '--show' to show tracebacks for failed imports.")
