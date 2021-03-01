@@ -5,3 +5,4 @@ Checking 'pathlib'...............Passed
 Checking 'importcheck'...........Passed
 Checking 'domdf_python_tools'....Passed
 Checking 'coincidence'...........Passed
+Checking 'plistlib'...........Passed
