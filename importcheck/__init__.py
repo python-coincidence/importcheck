@@ -326,6 +326,10 @@ class ImportChecker:
 				yield module_name, 0
 
 	def format_statistics(self) -> str:
+		"""
+		Returns a string reporting the number of modules imported successfully.
+		"""
+
 		if self.stats["failed"]:
 			total_modules = sum(self.stats.values())
 			return f"{self.stats['passed']}/{total_modules} {_module(total_modules)} imported successfully."
