@@ -4,7 +4,7 @@ import re
 
 # 3rd party
 import pytest
-from coincidence.regressions import AdvancedDataRegressionFixture, check_file_regression
+from coincidence.regressions import check_file_regression
 from coincidence.selectors import not_macos, not_windows, only_macos, only_version, only_windows
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
@@ -40,6 +40,7 @@ def demo_environment(tmp_pathplus: PathPlus) -> PathPlus:
 			"[tool.importcheck.only_if]",
 			'"platform_system == \\"Windows\\"" = [ "msvcrt",]',
 			'"platform_system == \\"Linux\\"" = [ "posix",]',
+			'"platform_system == \\"Darwin\\"" = [ "plistlib",]',
 			'',
 			"[tool.importcheck.config]",
 			"show = true",

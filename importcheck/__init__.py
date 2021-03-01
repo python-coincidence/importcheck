@@ -226,7 +226,7 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 			buf = ['Traceback (most recent call last):\n']
 			buf.extend(traceback.format_list(traceback_frames))
 
-			while buf[-1] == '\n':
+			while buf[-1] == '\n':  # pragma: no cover
 				del buf[-1]
 
 			buf.extend(tb_e.format_exception_only())

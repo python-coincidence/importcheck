@@ -53,7 +53,7 @@ def about(level: int = 1):
 	"""
 
 	if not level:
-		return
+		return  # pragma: no cover
 
 	output = [f"importcheck version {__version__}"]
 
