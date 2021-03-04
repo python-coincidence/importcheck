@@ -103,6 +103,7 @@ def test_cli(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--no-colour"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
 
@@ -119,6 +120,7 @@ def test_cli_verbose(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--verbose"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
 
@@ -133,8 +135,8 @@ def test_cli_verbose_errors(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--verbose"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
-
 	assert result.exit_code == 1
 
 
@@ -150,8 +152,8 @@ def test_cli_verbose_verbose_errors(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--verbose", "--verbose"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
-
 	assert result.exit_code == 1
 
 
@@ -167,6 +169,7 @@ def test_cli_errors_show(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--show", "--no-colour"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 1
 
@@ -181,6 +184,7 @@ def test_cli_errors_count(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--count", "--no-colour"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 1
 
@@ -199,6 +203,7 @@ def test_cli_count_modules_as_args(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=[*args, "--no-colour"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
 
@@ -212,6 +217,7 @@ def test_cli_help(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--help", "--no-colour"])
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
 
@@ -231,8 +237,8 @@ def test_cli_bad_config(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--no-colour"])
 
-	assert result.exit_code == 1
 	assert not result.stdout
+	assert result.exit_code == 1
 	check_file_regression(fix_stdout(result.stderr), file_regression, extension=".txt")
 
 
@@ -268,6 +274,7 @@ def test_cli_stdin(
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=['-', "--no-colour"], input="collections importlib functools")
 
+	assert not result.stderr
 	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
 	assert result.exit_code == 0
 
@@ -278,5 +285,6 @@ def test_cli_version(tmp_pathplus: PathPlus, ):
 		runner = CliRunner(mix_stderr=False)
 		result: Result = runner.invoke(main, args=["--version"])
 
+	assert not result.stderr
 	assert fix_stdout(result.stdout) == "importcheck version 0.0.0"
 	assert result.exit_code == 0
