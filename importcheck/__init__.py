@@ -45,6 +45,7 @@ from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
+from domdf_python_tools.utils import redirect_output
 from domdf_python_tools.words import Plural
 from packaging.markers import Marker
 from typing_extensions import TypedDict
@@ -170,34 +171,6 @@ class Error(NamedTuple):
 
 	def __bool__(self):
 		return True
-
-
-@contextlib.contextmanager
-def redirect_output(combine: bool = False) -> Iterator[Tuple[StringIO, StringIO]]:
-	"""
-	Context manager to redirect stdout and stderr to two :class:`io.StringIO` objects.
-
-	These are assigned (as a :class:`tuple`) to the target the :keyword:`as` expression.
-
-	Example:
-
-	.. code-block:: python
-
-		with redirect_output() as (stdout, stderr):
-			...
-
-	:param combine: If :py:obj:`True` ``stderr`` is combined with ``stdout``.
-	"""  # noqa: D400
-
-	if combine:
-		stdout = stderr = StringIO()
-	else:
-		stdout = StringIO()
-		stderr = StringIO()
-
-	with contextlib.redirect_stdout(stdout):
-		with contextlib.redirect_stderr(stderr):
-			yield stdout, stderr
 
 
 def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
