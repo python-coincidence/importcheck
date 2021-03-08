@@ -231,7 +231,7 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 
 			buf.extend(tb_e.format_exception_only())
 
-			print(''.join(buf), file=stderr)
+			click.echo(''.join(buf), file=stderr)
 
 			return Error(module, stdout.getvalue(), stderr.getvalue())
 
