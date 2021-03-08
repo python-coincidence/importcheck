@@ -64,7 +64,7 @@ __all__ = [
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.2.0"
+__version__: str = "0.3.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
 _module = Plural("module", "modules")
@@ -213,7 +213,7 @@ def paths_to_modules(*paths: PathLike) -> Iterator[str]:
 	r"""
 	Convert filesystem paths (e.g. ``foo/bar.py``) into dotted import names (e.g. ``foo.bar``).
 
-	.. versionadded:: 0.2.0
+	.. versionadded:: 0.3.0
 
 	:param \*paths: The paths to convert.
 	"""

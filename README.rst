@@ -91,7 +91,7 @@ importcheck
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/importcheck
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/importcheck/v0.2.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/importcheck/v0.3.0
 	:target: https://github.com/domdfcoding/importcheck/pulse
 	:alt: GitHub commits since tagged version
 
