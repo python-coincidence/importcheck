@@ -129,7 +129,7 @@ def main(
 			if e.args and e.args[0] == "No such table 'importcheck' or 'tool.importcheck'":
 				click.echo(f"KeyError: {e.args[0]} in {config_file!r}", err=True)
 				raise click.Abort()
-			else:  # type: ignore
+			else:
 				raise e
 
 		modules_to_check = evaluate_markers(config)

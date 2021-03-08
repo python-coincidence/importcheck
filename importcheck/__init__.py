@@ -336,7 +336,10 @@ class ImportChecker:
 
 		else:
 			n_passed = self.stats["passed"]
-			if n_passed == 1:
+
+			if not n_passed:
+				return f"No modules to check."
+			elif n_passed == 1:
 				return f"{self.stats['passed']} module imported successfully."
 			else:
 				return f"All {self.stats['passed']} modules imported successfully."
