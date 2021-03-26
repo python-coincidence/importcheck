@@ -33,12 +33,11 @@ import importlib
 import importlib.machinery
 import importlib.util
 import traceback
-from io import StringIO
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, NamedTuple, Tuple, Union, cast
 
 # 3rd party
 import click
-import toml
+import dom_toml
 from click.globals import resolve_color_default
 from consolekit.terminal_colours import Back, Style
 from domdf_python_tools.doctools import prettify_docstrings
@@ -92,7 +91,7 @@ def load_toml(filename: PathLike) -> ConfigDict:
 	:param filename:
 	"""
 
-	config = toml.loads(PathPlus(filename).read_text())
+	config = dom_toml.load(filename)
 
 	if "importcheck" in config:
 		return cast(ConfigDict, config["importcheck"])
