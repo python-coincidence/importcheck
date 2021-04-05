@@ -5,7 +5,15 @@ import re
 # 3rd party
 import pytest
 from coincidence.regressions import check_file_regression
-from coincidence.selectors import not_macos, not_windows, only_macos, only_version, only_windows
+from coincidence.selectors import (
+		not_macos,
+		not_pypy,
+		not_windows,
+		only_macos,
+		only_pypy,
+		only_version,
+		only_windows
+		)
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
 from pytest_regressions.file_regression import FileRegressionFixture
@@ -36,13 +44,22 @@ platforms = pytest.mark.parametrize(
 				]
 		)
 
+only_pp = only_pypy(reason="Output differs on PyPy")
+not_pp = not_pypy(reason="Output differs on PyPy")
+
 versions = pytest.mark.parametrize(
 		"version",
 		[
-				pytest.param(3.6, marks=only_version(3.6, reason="Output differs on Python 3.6")),
-				pytest.param(3.7, marks=only_version(3.7, reason="Output differs on Python 3.7")),
-				pytest.param(3.8, marks=only_version(3.8, reason="Output differs on Python 3.8")),
-				pytest.param(3.9, marks=only_version(3.9, reason="Output differs on Python 3.9")),
+				pytest.param("3.6", marks=[only_version(3.6, reason="Output differs on Python 3.6"), not_pp]),
+				pytest.param("3.7", marks=[only_version(3.7, reason="Output differs on Python 3.7"), not_pp]),
+				pytest.param(
+						"3.6-pypy", marks=[only_version(3.6, reason="Output differs on Python 3.6"), only_pp]
+						),
+				pytest.param(
+						"3.7-pypy", marks=[only_version(3.7, reason="Output differs on Python 3.7"), only_pp]
+						),
+				pytest.param("3.8", marks=only_version(3.8, reason="Output differs on Python 3.8")),
+				pytest.param("3.9", marks=only_version(3.9, reason="Output differs on Python 3.9")),
 				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
 				]
 		)

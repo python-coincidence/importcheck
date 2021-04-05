@@ -1,0 +1,25 @@
+importcheck version 0.0.0
+
+Checking 'collections'...........Passed
+Checking 'i_dont_exist'..........Failed
+Captured output:
+Traceback (most recent call last):
+  File ".../importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1015, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 974, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'i_dont_exist'
+
+Checking 'this-is&invalid'.......Failed
+Captured output:
+Traceback (most recent call last):
+  File ".../importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1015, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 974, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'this-is&invalid'
+
+Checking 'domdf_python_tools'....Passed
+Checking 'coincidence'...........Passed
