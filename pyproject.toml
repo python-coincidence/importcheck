@@ -19,9 +19,9 @@ name = "Dominic Davis-Foster"
 file = "LICENSE"
 
 [project.urls]
-Homepage = "https://github.com/domdfcoding/importcheck"
-"Issue Tracker" = "https://github.com/domdfcoding/importcheck/issues"
-"Source Code" = "https://github.com/domdfcoding/importcheck"
+Homepage = "https://github.com/python-coincidence/importcheck"
+"Issue Tracker" = "https://github.com/python-coincidence/importcheck/issues"
+"Source Code" = "https://github.com/python-coincidence/importcheck"
 Documentation = "https://importcheck.readthedocs.io/en/latest"
 
 [project.scripts]
@@ -40,4 +40,5 @@ platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
 
 [tool.mkrecipe]
-conda-channels = [ "domdfcoding", "conda-forge",]
+conda-channels = [ "python-coincidence",]
+extras = "all"
