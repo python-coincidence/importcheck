@@ -24,7 +24,7 @@ importcheck
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
 	* - QA
-	  - |codefactor| |actions_flake8| |actions_mypy| |pre_commit_ci|
+	  - |codefactor| |actions_flake8| |actions_mypy|
 	* - Other
 	  - |license| |language| |requires|
 
@@ -105,10 +105,6 @@ importcheck
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/importcheck
 	:target: https://pypi.org/project/importcheck/
 	:alt: PyPI - Downloads
-
-.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/importcheck/master.svg
-	:target: https://results.pre-commit.ci/latest/github/domdfcoding/importcheck/master
-	:alt: pre-commit.ci status
 
 .. end shields
 
