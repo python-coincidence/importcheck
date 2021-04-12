@@ -5,10 +5,9 @@ from typing import Iterable
 
 # 3rd party
 import pytest
-from coincidence.regressions import AdvancedDataRegressionFixture
+from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
 from coincidence.selectors import only_version
 from domdf_python_tools.paths import PathPlus
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from importcheck import ImportChecker
@@ -37,7 +36,7 @@ versions = pytest.mark.parametrize(
 @pytest.mark.parametrize("show", [True, False])
 def test_importchecker(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		modules: Iterable[str],
 		show,
@@ -46,14 +45,14 @@ def test_importchecker(
 	checker = ImportChecker(modules, show=show)
 
 	advanced_data_regression.check(dict(checker.check_modules()))
-	file_regression.check(checker.format_statistics())
+	advanced_file_regression.check(checker.format_statistics())
 
 
 @versions
 @pytest.mark.parametrize("show", [True, False])
 def test_importchecker_errors_show(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		version,
 		show,
@@ -65,4 +64,4 @@ def test_importchecker_errors_show(
 			)
 
 	advanced_data_regression.check(dict(checker.check_modules()))
-	file_regression.check(checker.format_statistics())
+	advanced_file_regression.check(checker.format_statistics())

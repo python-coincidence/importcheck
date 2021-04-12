@@ -4,7 +4,7 @@ import re
 
 # 3rd party
 import pytest
-from coincidence.regressions import check_file_regression
+from coincidence.regressions import AdvancedFileRegressionFixture, check_file_regression
 from coincidence.selectors import (
 		not_macos,
 		not_pypy,
@@ -16,7 +16,6 @@ from coincidence.selectors import (
 		)
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from importcheck.__main__ import __version__, main
@@ -70,7 +69,7 @@ versions = pytest.mark.parametrize(
 @platforms
 def test_cli(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		platform: str,
 		demo_environment,
 		):
@@ -80,14 +79,14 @@ def test_cli(
 		result: Result = runner.invoke(main, args=["--no-colour"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
 @platforms
 def test_cli_verbose(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		platform: str,
 		demo_environment,
 		):
@@ -97,13 +96,13 @@ def test_cli_verbose(
 		result: Result = runner.invoke(main, args=["--verbose"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
 def test_cli_verbose_errors(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		errored_environment,
 		):
 
@@ -112,14 +111,14 @@ def test_cli_verbose_errors(
 		result: Result = runner.invoke(main, args=["--verbose"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 1
 
 
 @versions
 def test_cli_verbose_verbose_errors(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		errored_environment,
 		version,
 		):
@@ -129,14 +128,14 @@ def test_cli_verbose_verbose_errors(
 		result: Result = runner.invoke(main, args=["--verbose", "--verbose"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 1
 
 
 @versions
 def test_cli_errors_show(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		errored_environment,
 		version,
 		):
@@ -146,13 +145,13 @@ def test_cli_errors_show(
 		result: Result = runner.invoke(main, args=["--show", "--no-colour"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 1
 
 
 def test_cli_errors_count(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		errored_environment,
 		):
 
@@ -161,7 +160,7 @@ def test_cli_errors_count(
 		result: Result = runner.invoke(main, args=["--count", "--no-colour"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 1
 
 
@@ -171,7 +170,7 @@ def test_cli_errors_count(
 		])
 def test_cli_count_modules_as_args(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		args,
 		):
 
@@ -180,13 +179,13 @@ def test_cli_count_modules_as_args(
 		result: Result = runner.invoke(main, args=[*args, "--no-colour"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
 def test_cli_help(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		):
 
 	with in_directory(tmp_pathplus):
@@ -194,13 +193,13 @@ def test_cli_help(
 		result: Result = runner.invoke(main, args=["--help", "--no-colour"])
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
 def test_cli_bad_config(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		):
 
 	(tmp_pathplus / "pyproject.toml").write_lines([
@@ -215,13 +214,13 @@ def test_cli_bad_config(
 
 	assert not result.stdout
 	assert result.exit_code == 1
-	check_file_regression(fix_stdout(result.stderr), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stderr))
 
 
 @pytest.mark.parametrize("verbosity", [0, 1, 2])
 def test_cli_no_op(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		verbosity: int,
 		):
 
@@ -237,13 +236,13 @@ def test_cli_no_op(
 		runner = CliRunner()
 		result: Result = runner.invoke(main, args=["--no-colour"] + (["--verbose"] * verbosity))
 
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
 def test_cli_stdin(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		):
 
 	with in_directory(tmp_pathplus):
@@ -251,7 +250,7 @@ def test_cli_stdin(
 		result: Result = runner.invoke(main, args=['-', "--no-colour"], input="collections importlib functools")
 
 	assert not result.stderr
-	check_file_regression(fix_stdout(result.stdout), file_regression, extension=".txt")
+	advanced_file_regression.check(fix_stdout(result.stdout))
 	assert result.exit_code == 0
 
 
