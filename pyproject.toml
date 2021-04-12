@@ -4,7 +4,7 @@ build-backend = "whey"
 
 [project]
 name = "importcheck"
-version = "0.3.0"
+version = "0.4.0"
 description = "A tool to check all modules can be correctly imported."
 readme = "README.rst"
 keywords = [ "import", "test",]
