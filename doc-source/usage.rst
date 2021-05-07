@@ -13,6 +13,10 @@ Command Line
 
 	The list of modules to check can also be read from stdin if ``-`` is given as the first argument.
 
+	.. raw:: latex
+
+		\clearpage
+
 	**Example:**
 
 	.. prompt:: bash

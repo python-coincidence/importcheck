@@ -50,14 +50,13 @@ from packaging.markers import Marker
 from typing_extensions import TypedDict
 
 __all__ = [
-		"ConfigDict",
-		"Error",
-		"OK",
-		"check_module",
-		"evaluate_markers",
 		"load_toml",
+		"check_module",
 		"paths_to_modules",
-		"ImportChecker"
+		"ConfigDict",
+		"ImportChecker",
+		"OK",
+		"Error",
 		]
 
 __author__: str = "Dominic Davis-Foster"
@@ -252,10 +251,10 @@ class ImportChecker:
 		self.stats: Dict[str, int] = {"passed": 0, "failed": 0}
 
 		#: Whether to show stdout and stderr generated from imports.
-		self.show = show
+		self.show: bool = show
 
 		#: Whether to use coloured output.
-		self.colour = colour
+		self.colour: bool = colour
 
 	def check_modules(self) -> Iterator[Tuple[str, int]]:
 		"""

@@ -32,6 +32,7 @@ keywords:
 
 extra_sphinx_extensions:
  - sphinx_click
+ - html_section
 
 console_scripts:
  - "importcheck=importcheck.__main__:main"
@@ -43,3 +44,8 @@ classifiers:
  - 'Development Status :: 4 - Beta'
  - 'Environment :: Console'
  - 'Intended Audience :: Developers'
+
+exclude_files:
+ - contributing
+
+preserve_custom_theme: true
