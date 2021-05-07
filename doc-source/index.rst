@@ -146,6 +146,7 @@ Contents
 	:github:
 	:pypi: importcheck
 
+	Contributing Guide <https://contributing-to-coincidence.readthedocs.io/en/latest/>
 
 .. start links
 
