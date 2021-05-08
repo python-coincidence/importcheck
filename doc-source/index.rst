@@ -8,6 +8,10 @@ importcheck
 
 .. end short_desc
 
+.. meta::
+	:description: importcheck -- A tool to check all modules can be correctly imported.
+	:google-site-verification: 1t35QL5bOaXD-ZJKQwAwEoI7ry2jumX5DX8F8t7RyDk
+
 .. start shields
 
 .. only:: html
