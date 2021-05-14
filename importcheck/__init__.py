@@ -209,7 +209,9 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 
 def paths_to_modules(*paths: PathLike) -> Iterator[str]:
 	r"""
-	Convert filesystem paths (e.g. ``foo/bar.py``) into dotted import names (e.g. ``foo.bar``).
+	Convert filesystem paths into dotted import names.
+
+	For example, ``foo/bar.py`` becomes ``foo.bar``.
 
 	.. versionadded:: 0.3.0
 
@@ -226,7 +228,7 @@ def paths_to_modules(*paths: PathLike) -> Iterator[str]:
 
 
 class ImportChecker:
-	"""
+	r"""
 	Class for checking modules can be imported.
 
 	.. versionadded:: 0.3.0
@@ -234,6 +236,10 @@ class ImportChecker:
 	:param modules: The list of modules to be checked.
 	:param show: Whether to show stdout and stderr generated from imports.
 	:param colour: Whether to use coloured output.
+
+	.. raw:: latex
+
+		\vspace{10px}
 	"""
 
 	def __init__(
