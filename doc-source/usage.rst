@@ -62,7 +62,7 @@ The structure of the configuration is as follows:
 	always = [ "mypackage", "mypackage.submodule",]
 
 	[tool.importcheck.only_if]
-	"sys_platform == \"linux\"" = [ "mypackage._linux_helpers",]
+	"sys_platform == 'linux'" = [ "mypackage._linux_helpers",]
 
 	[tool.importcheck.config]
 	show = true
