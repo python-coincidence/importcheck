@@ -3,8 +3,9 @@ import platform
 import re
 
 # 3rd party
+import click
 import pytest
-from coincidence.regressions import AdvancedFileRegressionFixture, check_file_regression
+from coincidence.regressions import AdvancedFileRegressionFixture
 from coincidence.selectors import (
 		not_macos,
 		not_pypy,
@@ -183,7 +184,23 @@ def test_cli_count_modules_as_args(
 	assert result.exit_code == 0
 
 
+@pytest.mark.skipif(click.__version__.split(".")[0] != "7", reason="Output differs on Click 8")
 def test_cli_help(
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["--help", "--no-colour"])
+
+	assert not result.stderr
+	advanced_file_regression.check(fix_stdout(result.stdout))
+	assert result.exit_code == 0
+
+
+@pytest.mark.skipif(click.__version__.split(".")[0] == "7", reason="Output differs on Click 8")
+def test_cli_help_click8(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		):
