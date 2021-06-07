@@ -184,7 +184,7 @@ def test_cli_count_modules_as_args(
 	assert result.exit_code == 0
 
 
-@pytest.mark.skipif(click.__version__.split(".")[0] != "7", reason="Output differs on Click 8")
+@pytest.mark.skipif(click.__version__.split('.')[0] != '7', reason="Output differs on Click 8")
 def test_cli_help(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
@@ -199,7 +199,7 @@ def test_cli_help(
 	assert result.exit_code == 0
 
 
-@pytest.mark.skipif(click.__version__.split(".")[0] == "7", reason="Output differs on Click 8")
+@pytest.mark.skipif(click.__version__.split('.')[0] == '7', reason="Output differs on Click 8")
 def test_cli_help_click8(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
