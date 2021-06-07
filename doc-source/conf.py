@@ -64,7 +64,10 @@ autodoc_default_options = {
 		"exclude-members": ','.join(config["autodoc_exclude_members"]),
 		}
 
-latex_elements = {}
+latex_elements = {
+		"printindex": "\\begin{flushleft}\n\\printindex\n\\end{flushleft}",
+		"tableofcontents": "\\pdfbookmark[0]{\\contentsname}{toc}\\sphinxtableofcontents",
+		}
 
 
 def setup(app):
