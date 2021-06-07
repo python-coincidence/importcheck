@@ -237,9 +237,8 @@ class ImportChecker:
 	:param show: Whether to show stdout and stderr generated from imports.
 	:param colour: Whether to use coloured output.
 
-	.. raw:: latex
-
-		\vspace{10px}
+	.. autosummary-widths:: 5/16
+		:html: 3/10
 	"""
 
 	def __init__(

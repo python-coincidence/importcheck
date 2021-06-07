@@ -32,7 +32,9 @@ keywords:
 
 extra_sphinx_extensions:
  - sphinx_click
- - html_section
+ - sphinx_toolbox_experimental.html_section
+ - sphinx_toolbox_experimental.autosummary_widths
+ - sphinx_toolbox_experimental.needspace
 
 console_scripts:
  - "importcheck=importcheck.__main__:main"
