@@ -39,10 +39,6 @@ python-implementations = [ "CPython", "PyPy",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
 
-[tool.mkrecipe]
-conda-channels = [ "python-coincidence",]
-extras = "all"
-
 [tool.sphinx-pyproject]
 github_username = "python-coincidence"
 github_repository = "importcheck"
@@ -61,7 +57,6 @@ extensions = [
     "sphinx_toolbox.tweaks.latex_toc",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
-    "sphinxcontrib.httpdomain",
     "sphinxcontrib.extras_require",
     "sphinx.ext.todo",
     "sphinxemoji.sphinxemoji",
@@ -124,3 +119,10 @@ autodoc_exclude_members = [
     "__abstractmethods__",
     "__hash__",
 ]
+
+[tool.mypy]
+python_version = "3.6"
+namespace_packages = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
