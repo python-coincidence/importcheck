@@ -16,6 +16,8 @@ min_coverage: 98
 enable_conda: false
 sphinx_html_theme: furo
 standalone_contrib_guide: true
+preserve_custom_theme: true
+docs_fail_on_warning: true
 
 python_versions:
  - 3.6
@@ -49,8 +51,6 @@ classifiers:
 
 exclude_files:
  - contributing
-
-preserve_custom_theme: true
 
 third_party_version_matrix:
  click:
