@@ -63,7 +63,7 @@ def about(level: int = 1):
 	click.echo(' '.join(output))
 
 
-def version_callback(ctx: click.Context, param: click.Option, value: int):  # noqa: D103
+def version_callback(ctx: click.Context, param: click.Option, value: int):
 	if not value or ctx.resilient_parsing:  # pragma: no cover
 		return
 
