@@ -128,10 +128,12 @@ Installation
 
 .. end installation
 
+
 Contents
 ------------
 
 .. html-section::
+
 
 .. toctree::
 	:hidden:
@@ -144,7 +146,7 @@ Contents
 	usage
 	api
 	Source
-
+	license
 
 .. sidebar-links::
 	:caption: Links
@@ -152,6 +154,7 @@ Contents
 	:pypi: importcheck
 
 	Contributing Guide <https://contributing-to-coincidence.readthedocs.io/en/latest/>
+
 
 .. start links
 
