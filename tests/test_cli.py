@@ -49,7 +49,9 @@ only_pp = only_pypy(reason="Output differs on PyPy")
 not_pp = not_pypy(reason="Output differs on PyPy")
 
 
-@pytest.fixture(scope="module", params=[
+@pytest.fixture(
+		scope="module",
+		params=[
 				pytest.param("3.6", marks=[only_version(3.6, reason="Output differs on Python 3.6"), not_pp]),
 				pytest.param("3.7", marks=[only_version(3.7, reason="Output differs on Python 3.7"), not_pp]),
 				pytest.param(

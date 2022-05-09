@@ -19,13 +19,20 @@ standalone_contrib_guide: true
 docs_fail_on_warning: true
 
 python_versions:
- - 3.6
- - 3.7
- - 3.8
- - 3.9
- - 3.10-dev
- - pypy36
- - pypy37
+  3.6:
+   matrix_exclude:
+    click:
+     - 8.1
+  3.7:
+  3.8:
+  3.9:
+  '3.10':
+  3.11-dev:
+  pypy36:
+   matrix_exclude:
+    click:
+     - 8.1
+  pypy37:
 
 keywords:
  - import
@@ -56,3 +63,4 @@ third_party_version_matrix:
  click:
   - 7.1
   - 8.0
+  - 8.1

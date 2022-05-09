@@ -12,17 +12,6 @@ from domdf_python_tools.paths import PathPlus
 # this package
 from importcheck import ImportChecker
 
-versions = pytest.mark.parametrize(
-		"version",
-		[
-				pytest.param(3.6, marks=only_version(3.6, reason="Output differs on Python 3.6")),
-				pytest.param(3.7, marks=only_version(3.7, reason="Output differs on Python 3.7")),
-				pytest.param(3.8, marks=only_version(3.8, reason="Output differs on Python 3.8")),
-				pytest.param(3.9, marks=only_version(3.9, reason="Output differs on Python 3.9")),
-				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
-				]
-		)
-
 
 @pytest.mark.parametrize(
 		"modules",
@@ -48,7 +37,17 @@ def test_importchecker(
 	advanced_file_regression.check(checker.format_statistics())
 
 
-@versions
+@pytest.mark.parametrize(
+		"version",
+		[
+				pytest.param(3.6, marks=only_version(3.6, reason="Output differs on Python 3.6")),
+				pytest.param(3.7, marks=only_version(3.7, reason="Output differs on Python 3.7")),
+				pytest.param(3.8, marks=only_version(3.8, reason="Output differs on Python 3.8")),
+				pytest.param(3.9, marks=only_version(3.9, reason="Output differs on Python 3.9")),
+				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
+				pytest.param("3.11", marks=only_version("3.11", reason="Output differs on Python 3.11")),
+				]
+		)
 @pytest.mark.parametrize("show", [True, False])
 def test_importchecker_errors_show(
 		tmp_pathplus: PathPlus,
