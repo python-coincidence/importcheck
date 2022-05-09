@@ -56,8 +56,8 @@ importcheck
 	:target: https://github.com/python-coincidence/importcheck/actions?query=workflow%3A%22mypy%22
 	:alt: mypy status
 
-.. |requires| image:: https://requires.io/github/python-coincidence/importcheck/requirements.svg?branch=master
-	:target: https://requires.io/github/python-coincidence/importcheck/requirements/?branch=master
+.. |requires| image:: https://dependency-dash.herokuapp.com/github/python-coincidence/importcheck/badge.svg
+	:target: https://dependency-dash.herokuapp.com/github/python-coincidence/importcheck/
 	:alt: Requirements Status
 
 .. |coveralls| image:: https://img.shields.io/coveralls/github/python-coincidence/importcheck/master?logo=coveralls
@@ -99,7 +99,7 @@ importcheck
 	:target: https://github.com/python-coincidence/importcheck/commit/master
 	:alt: GitHub last commit
 
-.. |maintained| image:: https://img.shields.io/maintenance/yes/2021
+.. |maintained| image:: https://img.shields.io/maintenance/yes/2022
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/importcheck
