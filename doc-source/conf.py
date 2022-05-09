@@ -78,3 +78,10 @@ def setup(app):
 
 
 nitpicky = True
+needspace_amount = r"5\baselineskip"
+favicons = [{
+		"rel": "icon",
+		"href": "https://python-coincidence.github.io/assets/coincidence.ico",
+		"sizes": "48x48",
+		"type": "image/vnd.microsoft.icon"
+		}]

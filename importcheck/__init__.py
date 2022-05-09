@@ -238,7 +238,6 @@ class ImportChecker:
 	:param colour: Whether to use coloured output.
 
 	.. autosummary-widths:: 5/16
-		:html: 3/10
 	"""
 
 	def __init__(

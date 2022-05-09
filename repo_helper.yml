@@ -16,7 +16,6 @@ min_coverage: 98
 enable_conda: false
 sphinx_html_theme: furo
 standalone_contrib_guide: true
-preserve_custom_theme: true
 docs_fail_on_warning: true
 
 python_versions:
@@ -34,15 +33,16 @@ keywords:
 
 extra_sphinx_extensions:
  - sphinx_click
- - sphinx_toolbox_experimental.html_section
- - sphinx_toolbox_experimental.autosummary_widths
- - sphinx_toolbox_experimental.needspace
+ - sphinx_toolbox.more_autosummary.column_widths
+ - sphinx-favicon
 
 console_scripts:
  - "importcheck=importcheck.__main__:main"
 
 sphinx_conf_epilogue:
  - nitpicky = True
+ - needspace_amount = r"5\baselineskip"
+ - 'favicons = [{"rel": "icon", "href": "https://python-coincidence.github.io/assets/coincidence.ico",  "sizes": "48x48", "type": "image/vnd.microsoft.icon"}]'
 
 classifiers:
  - 'Development Status :: 4 - Beta'
