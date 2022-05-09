@@ -33,14 +33,17 @@ def fix_stdout(stdout: str) -> str:
 	return stdout
 
 
-@pytest.fixture(scope="module", params=[
+@pytest.fixture(
+		scope="module",
+		params=[
 				pytest.param("Windows", marks=only_windows("Output differs on Windows")),
 				pytest.param(
 						"Linux",
 						marks=[not_windows("Output differs on Linux"), not_macos("Output differs on Linux")]
 						),
 				pytest.param("Darwin", marks=only_macos("Output differs on macOS")),
-				])
+				]
+		)
 def platforms(request):
 	return request.param
 
