@@ -91,7 +91,7 @@ importcheck
 .. |language| image:: https://img.shields.io/github/languages/top/python-coincidence/importcheck
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/python-coincidence/importcheck/v0.4.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/python-coincidence/importcheck/v0.4.1
 	:target: https://github.com/python-coincidence/importcheck/pulse
 	:alt: GitHub commits since tagged version
 
