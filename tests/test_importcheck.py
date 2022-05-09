@@ -39,8 +39,8 @@ def test_importchecker(
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		modules: Iterable[str],
-		show,
-		):
+		show: bool,
+		) -> None:
 
 	checker = ImportChecker(modules, show=show)
 
@@ -54,9 +54,9 @@ def test_importchecker_errors_show(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		version,
-		show,
-		):
+		version: str,
+		show: bool,
+		) -> None:
 
 	checker = ImportChecker(
 			["collections", "i_dont_exist", "this-is&invalid", "domdf_python_tools", "coincidence"],

@@ -1,6 +1,7 @@
 # stdlib
 import platform
 import re
+from typing import Tuple
 
 # 3rd party
 import click
@@ -32,24 +33,23 @@ def fix_stdout(stdout: str) -> str:
 	return stdout
 
 
-platforms = pytest.mark.parametrize(
-		"platform",
-		[
+@pytest.fixture(scope="module", params=[
 				pytest.param("Windows", marks=only_windows("Output differs on Windows")),
 				pytest.param(
 						"Linux",
 						marks=[not_windows("Output differs on Linux"), not_macos("Output differs on Linux")]
 						),
 				pytest.param("Darwin", marks=only_macos("Output differs on macOS")),
-				]
-		)
+				])
+def platforms(request):
+	return request.param
+
 
 only_pp = only_pypy(reason="Output differs on PyPy")
 not_pp = not_pypy(reason="Output differs on PyPy")
 
-versions = pytest.mark.parametrize(
-		"version",
-		[
+
+@pytest.fixture(scope="module", params=[
 				pytest.param("3.6", marks=[only_version(3.6, reason="Output differs on Python 3.6"), not_pp]),
 				pytest.param("3.7", marks=[only_version(3.7, reason="Output differs on Python 3.7"), not_pp]),
 				pytest.param(
@@ -61,19 +61,20 @@ versions = pytest.mark.parametrize(
 				pytest.param("3.8", marks=only_version(3.8, reason="Output differs on Python 3.8")),
 				pytest.param("3.9", marks=only_version(3.9, reason="Output differs on Python 3.9")),
 				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
-				]
-		)
+				])
+def version(request):
+	return request.param
+
 
 # TODO: check_modules
 
 
-@platforms
+@pytest.mark.usefixtures("platforms")
 def test_cli(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		platform: str,
 		demo_environment,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -84,13 +85,12 @@ def test_cli(
 	assert result.exit_code == 0
 
 
-@platforms
+@pytest.mark.usefixtures("platforms")
 def test_cli_verbose(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		platform: str,
-		demo_environment,
-		):
+		demo_environment: PathPlus,
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -101,11 +101,11 @@ def test_cli_verbose(
 	assert result.exit_code == 0
 
 
+@pytest.mark.usefixtures("errored_environment")
 def test_cli_verbose_errors(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		errored_environment,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -116,13 +116,11 @@ def test_cli_verbose_errors(
 	assert result.exit_code == 1
 
 
-@versions
+@pytest.mark.usefixtures("errored_environment", "version")
 def test_cli_verbose_verbose_errors(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		errored_environment,
-		version,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -133,13 +131,12 @@ def test_cli_verbose_verbose_errors(
 	assert result.exit_code == 1
 
 
-@versions
+@pytest.mark.usefixtures("errored_environment", "version")
 def test_cli_errors_show(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		errored_environment,
-		version,
-		):
+		version: str,
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -150,11 +147,11 @@ def test_cli_errors_show(
 	assert result.exit_code == 1
 
 
+@pytest.mark.usefixtures("errored_environment")
 def test_cli_errors_count(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		errored_environment,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -172,8 +169,8 @@ def test_cli_errors_count(
 def test_cli_count_modules_as_args(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		args,
-		):
+		args: Tuple[str],
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -188,7 +185,7 @@ def test_cli_count_modules_as_args(
 def test_cli_help(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -203,7 +200,7 @@ def test_cli_help(
 def test_cli_help_click8(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -217,7 +214,7 @@ def test_cli_help_click8(
 def test_cli_bad_config(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		):
+		) -> None:
 
 	(tmp_pathplus / "pyproject.toml").write_lines([
 			"[build-system]",
@@ -239,7 +236,7 @@ def test_cli_no_op(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		verbosity: int,
-		):
+		) -> None:
 
 	(tmp_pathplus / "pyproject.toml").write_lines([
 			"[build-system]",
@@ -260,7 +257,7 @@ def test_cli_no_op(
 def test_cli_stdin(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		):
+		) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
@@ -271,7 +268,7 @@ def test_cli_stdin(
 	assert result.exit_code == 0
 
 
-def test_cli_version(tmp_pathplus: PathPlus, ):
+def test_cli_version(tmp_pathplus: PathPlus) -> None:
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)

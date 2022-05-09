@@ -27,7 +27,6 @@ A tool to check all modules can be correctly imported.
 #
 
 # stdlib
-import contextlib
 import functools
 import importlib
 import importlib.machinery
@@ -137,10 +136,11 @@ class OK(NamedTuple):
 	def stderr(self):  # noqa: D102
 		raise NotImplementedError
 
-	def __bool__(self):
+	def __bool__(self) -> bool:
 		"""
 		:class:`~.OK` objects always evaluate as :py:obj:`False`.
 		"""
+
 		return False
 
 
@@ -167,7 +167,11 @@ class Error(NamedTuple):
 	This may also contain standard out if the streams are combined by :func:`~.check_module`.
 	"""
 
-	def __bool__(self):
+	def __bool__(self) -> bool:
+		"""
+		:class:`~.Error` objects always evaluate as :py:obj:`True`.
+		"""
+
 		return True
 
 
@@ -188,7 +192,7 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 			tb_e = traceback.TracebackException(
 					type(e),
 					e,
-					e.__traceback__,  # type: ignore
+					e.__traceback__,
 					)
 
 			if traceback_frames[0].filename == __file__:

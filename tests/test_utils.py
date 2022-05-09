@@ -12,7 +12,7 @@ from domdf_python_tools.paths import PathPlus, in_directory
 from importcheck import load_toml, paths_to_modules, redirect_output
 
 
-def test_redirect_output():
+def test_redirect_output() -> None:
 	with redirect_output() as (stdout, stderr):
 		print("I'm going to stdout")
 		click.echo("I'm going to stderr", file=sys.stderr)
@@ -23,7 +23,7 @@ def test_redirect_output():
 	assert stderr.getvalue() == "I'm going to stderr\nI'm also going to stderr\n"
 
 
-def test_redirect_output_combine():
+def test_redirect_output_combine() -> None:
 	with redirect_output(combine=True) as (stdout, stderr):
 		click.echo("I'm going to stdout")
 		print("I'm going to stderr", file=sys.stderr)
@@ -75,7 +75,7 @@ def test_load_toml(
 		content: List[str],
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		):
+		) -> None:
 
 	filename = tmp_pathplus / "pyproject.toml"
 	filename.write_lines(content)
@@ -92,7 +92,7 @@ def test_load_toml_errors(tmp_pathplus: PathPlus):
 		load_toml(tmp_pathplus / "pyproject.toml")
 
 
-def test_paths_to_modules(tmp_pathplus):
+def test_paths_to_modules(tmp_pathplus: PathPlus) -> None:
 	modules = [
 			tmp_pathplus / "my_module.py",
 			tmp_pathplus / "my_code" / "my_module.py",

@@ -47,7 +47,7 @@ from importcheck import ImportChecker, __version__, evaluate_markers, load_toml,
 __all__ = ["main"]
 
 
-def about(level: int = 1):
+def about(level: int = 1) -> None:
 	"""
 	Print information about ``importcheck``.
 	"""
@@ -63,7 +63,11 @@ def about(level: int = 1):
 	click.echo(' '.join(output))
 
 
-def version_callback(ctx: click.Context, param: click.Option, value: int):
+def version_callback(
+		ctx: click.Context,
+		param: click.Option,
+		value: int,
+		) -> None:
 	if not value or ctx.resilient_parsing:  # pragma: no cover
 		return
 
@@ -102,7 +106,7 @@ def main(
 		verbose: bool = False,
 		show: Optional[bool] = None,
 		count: Optional[bool] = None,
-		):
+		) -> None:
 	"""
 	Check modules can be imported.
 
