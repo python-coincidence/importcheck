@@ -48,7 +48,7 @@ from domdf_python_tools.words import Plural
 from packaging.markers import Marker
 from typing_extensions import TypedDict
 
-__all__ = [
+__all__ = (
 		"load_toml",
 		"check_module",
 		"paths_to_modules",
@@ -56,7 +56,7 @@ __all__ = [
 		"ImportChecker",
 		"OK",
 		"Error",
-		]
+		)
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2021 Dominic Davis-Foster"
@@ -202,7 +202,7 @@ def check_module(module: str, combine_output: bool = False) -> Union[OK, Error]:
 			buf.extend(traceback.format_list(traceback_frames))
 
 			while buf[-1] == '\n':  # pragma: no cover
-				del buf[-1]
+				del buf[-1]  # pylint: disable=loop-invariant-statement
 
 			buf.extend(tb_e.format_exception_only())
 
@@ -289,7 +289,7 @@ class ImportChecker:
 
 			if ret:
 				echo(Back.RED("Failed"))
-				self.stats["failed"] += 1
+				self.stats["failed"] += 1  # pylint: disable=loop-invariant-statement
 
 				if self.show:
 					echo(Style.BRIGHT("Captured output:"))
@@ -301,7 +301,7 @@ class ImportChecker:
 
 			else:
 				echo(Back.GREEN("Passed"))
-				self.stats["passed"] += 1
+				self.stats["passed"] += 1  # pylint: disable=loop-invariant-statement
 				yield module_name, 0
 
 	def format_statistics(self) -> str:

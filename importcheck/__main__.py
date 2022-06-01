@@ -44,7 +44,7 @@ from domdf_python_tools.typing import PathLike
 # this package
 from importcheck import ImportChecker, __version__, evaluate_markers, load_toml, paths_to_modules
 
-__all__ = ["main"]
+__all__ = ("main", )
 
 
 def about(level: int = 1) -> None:
