@@ -57,6 +57,8 @@ not_pp = not_pypy(reason="Output differs on PyPy")
 		params=[
 				pytest.param("3.6", marks=[only_version(3.6, reason="Output differs on Python 3.6"), not_pp]),
 				pytest.param("3.7", marks=[only_version(3.7, reason="Output differs on Python 3.7"), not_pp]),
+				pytest.param("3.8", marks=[only_version(3.8, reason="Output differs on Python 3.8"), not_pp]),
+				pytest.param("3.9", marks=[only_version(3.9, reason="Output differs on Python 3.9"), not_pp]),
 				pytest.param(
 						"3.6-pypy",
 						marks=[only_version(3.6, reason="Output differs on Python 3.6"), only_pp],
@@ -65,8 +67,14 @@ not_pp = not_pypy(reason="Output differs on PyPy")
 						"3.7-pypy",
 						marks=[only_version(3.7, reason="Output differs on Python 3.7"), only_pp],
 						),
-				pytest.param("3.8", marks=only_version(3.8, reason="Output differs on Python 3.8")),
-				pytest.param("3.9", marks=only_version(3.9, reason="Output differs on Python 3.9")),
+				pytest.param(
+						"3.8-pypy",
+						marks=[only_version(3.8, reason="Output differs on Python 3.8"), only_pp],
+						),
+				pytest.param(
+						"3.9-pypy",
+						marks=[only_version(3.9, reason="Output differs on Python 3.9"), only_pp],
+						),
 				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
 				pytest.param("3.11", marks=only_version("3.11", reason="Output differs on Python 3.11")),
 				]

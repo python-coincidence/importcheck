@@ -33,6 +33,8 @@ python_versions:
     click:
      - 8.1
   pypy37:
+  pypy38:
+  pypy39:
 
 keywords:
  - import
