@@ -62,8 +62,8 @@ importcheck
 		:workflow: mypy
 		:alt: mypy status
 
-	.. |requires| image:: https://dependency-dash.herokuapp.com/github/python-coincidence/importcheck/badge.svg
-		:target: https://dependency-dash.herokuapp.com/github/python-coincidence/importcheck/
+	.. |requires| image:: https://dependency-dash.repo-helper.uk/github/python-coincidence/importcheck/badge.svg
+		:target: https://dependency-dash.repo-helper.uk/github/python-coincidence/importcheck/
 		:alt: Requirements Status
 
 	.. |coveralls| coveralls-shield::
