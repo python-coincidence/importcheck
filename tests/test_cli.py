@@ -44,7 +44,7 @@ def fix_stdout(stdout: str) -> str:
 				pytest.param("Darwin", marks=only_macos("Output differs on macOS")),
 				]
 		)
-def platforms(request):
+def platforms(request) -> str:
 	return request.param
 
 
@@ -79,18 +79,17 @@ not_pp = not_pypy(reason="Output differs on PyPy")
 				pytest.param("3.11", marks=only_version("3.11", reason="Output differs on Python 3.11")),
 				]
 		)
-def version(request):
+def version(request) -> str:
 	return request.param
 
 
 # TODO: check_modules
 
 
-@pytest.mark.usefixtures("platforms")
+@pytest.mark.usefixtures("platforms", "demo_environment")
 def test_cli(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		demo_environment,
 		) -> None:
 
 	with in_directory(tmp_pathplus):
@@ -102,11 +101,10 @@ def test_cli(
 	assert result.exit_code == 0
 
 
-@pytest.mark.usefixtures("platforms")
+@pytest.mark.usefixtures("platforms", "demo_environment")
 def test_cli_verbose(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		demo_environment: PathPlus,
 		) -> None:
 
 	with in_directory(tmp_pathplus):
