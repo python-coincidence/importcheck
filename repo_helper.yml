@@ -44,7 +44,7 @@ keywords:
 extra_sphinx_extensions:
  - sphinx_click
  - sphinx_toolbox.more_autosummary.column_widths
- - sphinx-favicon
+ - sphinx_favicon
 
 console_scripts:
  - "importcheck=importcheck.__main__:main"

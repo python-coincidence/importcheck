@@ -70,7 +70,7 @@ extensions = [
     "html_section",
     "sphinx_click",
     "sphinx_toolbox.more_autosummary.column_widths",
-    "sphinx-favicon",
+    "sphinx_favicon",
 ]
 sphinxemoji_style = "twemoji"
 gitstamp_fmt = "%d %b %Y"
