@@ -49,4 +49,4 @@ known_third_party = [
     "toml",
     "typing_extensions",
 ]
-known_first_party = "importcheck"
+known_first_party = [ "importcheck",]
