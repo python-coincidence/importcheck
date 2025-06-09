@@ -10,7 +10,8 @@ version: '0.5.0'
 license: 'MIT'
 short_desc: 'A tool to check all modules can be correctly imported.'
 
-python_deploy_version: 3.6
+mypy_version: 1.16
+python_deploy_version: 3.9
 use_whey: true
 min_coverage: 98
 enable_conda: false
