@@ -25,7 +25,8 @@ from importcheck.__main__ import __version__, main
 
 def fix_stdout(stdout: str) -> str:
 	stdout = stdout.rstrip().replace(
-			f"{platform.python_implementation()} v{platform.python_version()}", "FakePython v1.2.3"
+			f"{platform.python_implementation()} v{platform.python_version()}",
+			"FakePython v1.2.3",
 			)
 	stdout = stdout.replace(f"importcheck version {__version__}", "importcheck version 0.0.0")
 	stdout = re.sub(r"python3.(\d+)", "python3.8", stdout)
@@ -39,7 +40,7 @@ def fix_stdout(stdout: str) -> str:
 				pytest.param("Windows", marks=only_windows("Output differs on Windows")),
 				pytest.param(
 						"Linux",
-						marks=[not_windows("Output differs on Linux"), not_macos("Output differs on Linux")]
+						marks=[not_windows("Output differs on Linux"), not_macos("Output differs on Linux")],
 						),
 				pytest.param("Darwin", marks=only_macos("Output differs on macOS")),
 				]

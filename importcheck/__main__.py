@@ -50,6 +50,8 @@ __all__ = ("main", )
 def about(level: int = 1) -> None:
 	"""
 	Print information about ``importcheck``.
+
+	:param level:
 	"""
 
 	if not level:
