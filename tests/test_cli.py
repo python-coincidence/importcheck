@@ -43,7 +43,7 @@ def fix_stdout(stdout: str) -> str:
 						marks=[not_windows("Output differs on Linux"), not_macos("Output differs on Linux")],
 						),
 				pytest.param("Darwin", marks=only_macos("Output differs on macOS")),
-				]
+				],
 		)
 def platforms(request) -> str:
 	return request.param
@@ -78,7 +78,7 @@ not_pp = not_pypy(reason="Output differs on PyPy")
 						),
 				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
 				pytest.param("3.11", marks=only_version("3.11", reason="Output differs on Python 3.11")),
-				]
+				],
 		)
 def version(request) -> str:
 	return request.param
@@ -178,10 +178,13 @@ def test_cli_errors_count(
 	assert result.exit_code == 1
 
 
-@pytest.mark.parametrize("args", [
-		("collections", "importlib", "--count"),
-		("collections", "--count"),
-		])
+@pytest.mark.parametrize(
+		"args",
+		[
+				("collections", "importlib", "--count"),
+				("collections", "--count"),
+				],
+		)
 def test_cli_count_modules_as_args(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,

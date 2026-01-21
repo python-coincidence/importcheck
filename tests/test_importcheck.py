@@ -19,7 +19,7 @@ from importcheck import ImportChecker
 				pytest.param(("importlib", ), id="importlib"),
 				pytest.param(("collections", ), id="collections"),
 				pytest.param((), id="empty"),
-				]
+				],
 		)
 @pytest.mark.parametrize("show", [True, False])
 def test_importchecker(
@@ -44,7 +44,7 @@ def test_importchecker(
 				pytest.param(3.9, marks=only_version(3.9, reason="Output differs on Python 3.9")),
 				pytest.param("3.10", marks=only_version("3.10", reason="Output differs on Python 3.10")),
 				pytest.param("3.11", marks=min_version("3.11", reason="Output differs on Python 3.11")),
-				]
+				],
 		)
 @pytest.mark.parametrize("show", [True, False])
 def test_importchecker_errors_show(

@@ -69,7 +69,7 @@ importcheck_content = [
 		[
 				pytest.param(pyproject_content, id="pyproject.toml"),
 				pytest.param(importcheck_content, id="importcheck.toml"),
-				]
+				],
 		)
 def test_load_toml(
 		content: List[str],
